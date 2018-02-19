@@ -11,9 +11,24 @@ export class ShoppingListService {
 
       //addToShoppingList = new EventEmitter<void>();
       addToShoppingList = new Subject<Ingredient[]>();
+      editIngredient = new Subject<number>();
 
       getIngredients() : Ingredient[] {
           return this.ingredients.slice();
+      }
+
+      getIngredient(index : number) : Ingredient{
+        return this.ingredients[index];
+      }
+
+      deleteIngredient(index : number){
+        this.ingredients.splice(index,1);
+        this.addToShoppingList.next(this.ingredients);
+      }
+
+      updateIngredient(index:number,newIngredient:Ingredient){
+          this.ingredients[index] = newIngredient;
+          this.addToShoppingList.next(this.ingredients);
       }
 
       addIngredientToShoppingList(ingredient : Ingredient){
